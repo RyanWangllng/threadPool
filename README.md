@@ -23,3 +23,9 @@
 - 周期性的对任务队列中的任务数量和处于繁忙状态的工作线程个数进行检测
     - 当任务过多时，适当的创建一些新的工作线程（线程总数不会超过设定的最大值）
     - 当任务过少时，适当的销毁一些工作线程
+
+
+**参考资料**：  
+1. https://www.cnblogs.com/lzpong/p/6397997.html
+2. https://subingwen.cn/linux/threadpool/
+3. https://wangpengcheng.github.io/2019/05/17/cplusplus_theadpool/
