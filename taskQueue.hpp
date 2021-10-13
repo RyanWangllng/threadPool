@@ -4,7 +4,7 @@
 #include <queue>
 #include <pthread.h>
 
-using callback = void (*) (void* arg);
+using callback = void (*) (void* arg1, void* arg2);
 
 // 任务结构体
 template <typename T>
@@ -13,14 +13,16 @@ class Task {
         // 函数指针
         Task() {
             function = nullptr;
-            arg = nullptr;
+            arg1 = nullptr;
+            arg2 = nullptr;
         }
-        Task(callback f, void* arg) {
-            this->arg = static_cast<T*>(arg);
+        Task(callback f, void* arg1, void* arg2) {
+            this->arg1 = static_cast<T*>(arg1);
+            this->arg2 = static_cast<T*>(arg2);
             function = f;
         }
         callback function;
-        T* arg;
+        T *arg1, *arg2;
 };
 
 template <typename T>
@@ -31,7 +33,7 @@ class TaskQueue{
 
         // 添加任务
         void addTask(Task<T>& task);
-        void addTask(callback f, void* arg);
+        void addTask(callback f, void* arg1, void* arg2);
         // 取一个任务
         Task<T> getTask();
         // 获取当前任务的个数
@@ -61,11 +63,12 @@ void TaskQueue<T>::addTask(Task<T>& task) {
 }
 
 template <typename T>
-void TaskQueue<T>::addTask(callback func, void* arg) {
+void TaskQueue<T>::addTask(callback func, void* arg1, void* arg2) {
     pthread_mutex_lock(&m_mutex);
     Task<T> task;
     task.function = func;
-    task.arg = arg;
+    task.arg1 = arg1;
+    task.arg2 = arg2;
     m_queue.push(task);
     pthread_mutex_unlock(&m_mutex);
 }

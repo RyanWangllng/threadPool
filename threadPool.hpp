@@ -151,9 +151,11 @@ void* ThreadPool<T>::worker(void* arg) {
         pthread_mutex_unlock(&pool->m_lock);
         // 执行任务
         std::cout << "thread " << std::to_string(pthread_self()) << " start working..." << std::endl;
-        task.function(task.arg);
-        delete task.arg;
-        task.arg = nullptr;
+        task.function(task.arg1, task.arg2);
+        delete task.arg1;
+        delete task.arg2;
+        task.arg1 = nullptr;
+        task.arg2 = nullptr;
 
         // 任务处理结束
         std::cout << "thread " << std::to_string(pthread_self()) << " finish work..." << std::endl;
