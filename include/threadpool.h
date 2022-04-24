@@ -61,6 +61,37 @@ private:
     std::unique_ptr<Base> base_;
 };
 
+// 信号量类型实现
+class Semaphore {
+public:
+    Semaphore(int count = 0)
+        : resCount_(count) {}
+    ~Semaphore() = default;
+    
+    // 获取一个信号量资源
+    void wait() {
+        std::unique_lock<std::mutex> ulock(mtx_);
+        
+        // 等待信号量资源，若信号量为0，就阻塞当前线程
+        auto pred = [&]() -> bool {
+            return resCount_ > 0;
+        };
+        condv_.wait(ulock, pred);
+        --resCount_;
+    }
+    
+    // 增加一个信号量资源
+    void post() {
+        std::unique_lock<std::mutex> ulock(mtx_);
+        ++resCount_;
+        condv_.notify_all();
+    }
+private:
+    int resCount_;
+    std::mutex mtx_;
+    std::condition_variable condv_;
+};
+
 // 任务抽象基类
 class Task {
 public:
