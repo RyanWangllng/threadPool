@@ -72,8 +72,8 @@ public:
     
     // 获取一个信号量资源
     void wait() {
-        std::cout << "thread: " << std::this_thread::get_id()
-            << " sem_.wait begin..." << std::endl;
+//        std::cout << "thread: " << std::this_thread::get_id()
+//            << " sem_.wait begin..." << std::endl;
         std::unique_lock<std::mutex> ulock(mtx_);
         
         // 等待信号量资源，若信号量为0，就阻塞当前线程
@@ -82,14 +82,14 @@ public:
         };
         condv_.wait(ulock, pred);
         --resCount_;
-        std::cout << "thread: " << std::this_thread::get_id()
-            << " sem_.wait get..." << std::endl;
+//        std::cout << "thread: " << std::this_thread::get_id()
+//            << " sem_.wait get..." << std::endl;
     }
     
     // 增加一个信号量资源
     void post() {
-        std::cout << "thread: " << std::this_thread::get_id()
-            << " sem_.post" << std::endl;
+//        std::cout << "thread: " << std::this_thread::get_id()
+//            << " sem_.post" << std::endl;
         std::unique_lock<std::mutex> ulock(mtx_);
         ++resCount_;
         condv_.notify_all();
@@ -231,6 +231,7 @@ private:
     std::mutex taskQueMtx_; // 保证任务队列线程安全的互斥锁
     std::condition_variable notFull_; // 表示任务队列不满
     std::condition_variable notEmpty_; // 表示任务队列不空
+    std::condition_variable exitCond_; // 等待线程资源全部回收
 };
 
 #endif /* threadpool_h */

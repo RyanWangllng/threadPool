@@ -36,28 +36,52 @@ private:
 };
 
 int main() {
-
-    ThreadPool pool;
-    pool.setMode(PoolMode::MODE_CACHED);
-    pool.start(4);
     
-    Result res1 = pool.submitTask(std::make_shared<Mytask>(1, 100000000));
-    Result res2 = pool.submitTask(std::make_shared<Mytask>(100000001, 200000000));
-    Result res3 = pool.submitTask(std::make_shared<Mytask>(200000001, 300000000));
-    Result res4 = pool.submitTask(std::make_shared<Mytask>(300000001, 400000000));
+    {
+        ThreadPool pool;
+        pool.setMode(PoolMode::MODE_CACHED);
+        pool.start(2);
+        
+        Result res1 = pool.submitTask(std::make_shared<Mytask>(1, 100000000));
+        Result res2 = pool.submitTask(std::make_shared<Mytask>(100000001, 200000000));
+        Result res3 = pool.submitTask(std::make_shared<Mytask>(200000001, 300000000));
+        Result res4 = pool.submitTask(std::make_shared<Mytask>(300000001, 400000000));
+        Result res5 = pool.submitTask(std::make_shared<Mytask>(400000001, 500000000));
+        ull sum1 = res1.get().cast_<ull>();
+        ull sum2 = res2.get().cast_<ull>();
+        ull sum3 = res3.get().cast_<ull>();
+        ull sum4 = res4.get().cast_<ull>();
+        ull sum5 = res5.get().cast_<ull>();
+        std::cout << sum1 << std::endl;
+    }
+    std::cout << "main over!" << std::endl;
     
-    Result res5 = pool.submitTask(std::make_shared<Mytask>(400000001, 500000000));
-    Result res6 = pool.submitTask(std::make_shared<Mytask>(500000001, 600000000));
     
-    ull sum1 = res1.get().cast_<ull>();
-    ull sum2 = res2.get().cast_<ull>();
-    ull sum3 = res3.get().cast_<ull>();
-    ull sum4 = res4.get().cast_<ull>();
-    ull sum5 = res5.get().cast_<ull>();
-    ull sum6 = res6.get().cast_<ull>();
-    
-    ull sum = sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
-    std::cout << "sum = " << sum << std::endl;
+/*
+    {
+        ThreadPool pool;
+        pool.setMode(PoolMode::MODE_CACHED);
+        pool.start(4);
+        
+        Result res1 = pool.submitTask(std::make_shared<Mytask>(1, 100000000));
+        Result res2 = pool.submitTask(std::make_shared<Mytask>(100000001, 200000000));
+        Result res3 = pool.submitTask(std::make_shared<Mytask>(200000001, 300000000));
+        Result res4 = pool.submitTask(std::make_shared<Mytask>(300000001, 400000000));
+        
+        Result res5 = pool.submitTask(std::make_shared<Mytask>(400000001, 500000000));
+        Result res6 = pool.submitTask(std::make_shared<Mytask>(500000001, 600000000));
+        
+        ull sum1 = res1.get().cast_<ull>();
+        ull sum2 = res2.get().cast_<ull>();
+        ull sum3 = res3.get().cast_<ull>();
+        ull sum4 = res4.get().cast_<ull>();
+        ull sum5 = res5.get().cast_<ull>();
+        ull sum6 = res6.get().cast_<ull>();
+        
+        ull sum = sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
+        std::cout << "sum = " << sum << std::endl;
+    }
+*/
     
 
     /*ull sum_true = 0;
@@ -66,7 +90,8 @@ int main() {
     }
     std::cout << "sum_true = " << sum_true << std::endl;*/
     
-    getchar();
+//    getchar();
     // std::this_thread::sleep_for(std::chrono::seconds(5));
-    return 0;
+//    return 0;
+
 }
