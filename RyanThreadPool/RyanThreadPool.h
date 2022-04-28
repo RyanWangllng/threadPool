@@ -21,7 +21,7 @@
 #include <chrono>
 #include <unordered_map>
 
-const int TASK_MAX_THRESHHOLD = 2;
+const int TASK_MAX_THRESHHOLD = INT32_MAX;
 const int THREAD_MAX_THRESHHOLD = 10;
 const int THREAD_MAX_IDLE_TIME  = 60; // 秒
 
